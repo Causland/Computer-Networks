@@ -45,13 +45,11 @@ int data_to_num(char* start, int len){
 	return num;
 }
 
-genPacket* inc_packet_space(genPacket* oldStorage, int prevSize, int incr){
-	genPacket* newStorage = malloc(sizeof(genPacket) * (prevSize+incr));
-	memcpy(newStorage, oldStorage, sizeof(genPacket) * prevSize);
-	free(oldStorage);
+genPacket* inc_packet_space(genPacket* oldStorage, int* prevSize, int incr){
+	genPacket* newStorage = realloc(oldStorage, sizeof(genPacket) * ((*prevSize)+incr));
+	*prevSize += incr;
 	return newStorage;
 }
-
 
 int main(int argc, char *argv[]) {
 	
@@ -155,9 +153,8 @@ int main(int argc, char *argv[]) {
 		//Get packet number
 		int packetNum = data_to_num(gp.packetNum, sizeof(gp.packetNum));
 		++packetCount;
-		if(packetCount % 10 == 0){
-			inc_packet_space(packetArr, arrSize, 10);
-			arrSize += 10;
+		if(packetCount % 10 == 0 && packetCount > 0){
+			inc_packet_space(packetArr, &arrSize, 10);
 		}
 
 		//Copy the packet to its new location and clear the packet buffer
@@ -172,8 +169,8 @@ int main(int argc, char *argv[]) {
 	char buf[fileSize];
 	int bufloc = 0;
 	for(int i=0;i<packetCount;++i){
-		int size = data_to_num(packetArr[i].payloadSize, sizeof(gp.payloadSize));
-		memcpy(buf+bufloc, packetArr[i].dataPayload, size);
+		int size = data_to_num((packetArr+i)->payloadSize, sizeof(gp.payloadSize));
+		memcpy(buf+bufloc, (packetArr+i)->dataPayload, size);
 		bufloc += size;
 	}
 	

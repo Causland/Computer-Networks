@@ -1,17 +1,17 @@
 [Anjuta]
 Maximized=1
-Geometry=1920x1043+0+0
-
-[Execution]
-Program uri=../../src/udp_client
-Run in terminal=2
-Working directories=../../.
+Geometry=1530x836+70+27
 
 [File Loader]
 Files=../../src/main.c#129
 
 [Document Manager]
 bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n
+
+[Execution]
+Program uri=../../src/udp_client
+Run in terminal=2
+Working directories=../../.
 
 [Project Manager]
 Shortcut=udp_client//src//udp_client
